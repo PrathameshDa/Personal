@@ -1,0 +1,54 @@
+{
+	"arcgis": {
+		"version": "11.5",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"vm-gis-app-stg-usc-01.gis.esscompanies.com": "10.110.0.230",
+			"vm-gis-app-stg-usc-02.gis.esscompanies.com": "10.110.0.229",
+			"vm-gis-app-stg-usc-03.gis.esscompanies.com": "10.110.0.228",
+			"vm-gis-dat-stg-usc-01.gis.esscompanies.com": "10.110.0.244",
+			"vm-gis-web-stg-usc-01.gis.esscompanies.com": "10.110.0.212",
+			"gis-stg.esscompanies.com": "10.110.0.212",
+			"vm-gis-mgt-prd-usc-01.gis.esscompanies.com": "10.110.0.132"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"server": {
+			"domain_name": "vm-gis-app-stg-usc-03.gis.esscompanies.com",
+			"hostname": "vm-gis-app-stg-usc-03.gis.esscompanies.com",
+			"install_dir": "/home/arcgisservice",
+			"private_url": "https://vm-gis-app-stg-usc-03.gis.esscompanies.com:6443/arcgis",
+			"url": "https://vm-gis-app-stg-usc-03.gis.esscompanies.com:6443/arcgis",
+			"web_context_url": "https://gis-stg.esscompanies.com/image",
+			"admin_username": "siteadmin",
+			"admin_password": "bKU217sv",
+			"setup_archive": "/mount/netapp-stage/arcgis_repo/setups/ArcGIS_Server_Linux_115_195440.tar.gz",
+			"authorization_file": "/mount/netapp-stage/arcgis_repo/licenses/ArcGISImageServer_ArcGISServer_1609819.prvc",
+			"directories_root": "/mount/datadisk/arcgisserver",
+			"is_hosting": false,
+			"log_dir": "/mount/logdisk/arcgisserver/logs",
+			"log_level": "FINE",
+			"config_store_type": "FILESYSTEM",
+			"config_store_connection_string": "/mount/datadisk/arcgisserver/config-store",
+			"install_system_requirements": true,
+			"keystore_file": "/mount/netapp-stage/arcgis_repo/ssl/gis.esscompanies.com.pfx",
+			"keystore_password": "2dPsCSeiB&ZdUEBQ171W4^ft",
+			"system_properties": {
+				"enableNosniffHeader": true,
+				"WebContextURL": "https://gis-stg.esscompanies.com/image"
+			}
+		},
+		"portal": {
+			"domain_name": "vm-gis-app-stg-usc-01.gis.esscompanies.com",
+			"wa_url": "https://vm-gis-web-stg-usc-01.gis.esscompanies.com/portal",
+			"admin_username": "portaladmin",
+			"admin_password": "182TV6z4"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::hosts]",
+		"recipe[arcgis-enterprise::server]",
+		"recipe[arcgis-enterprise::federation]"
+	]
+}
