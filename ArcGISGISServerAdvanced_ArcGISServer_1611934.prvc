@@ -1,0 +1,24 @@
+// ArcGISGISServerAdvanced_ArcGISServer_1611934.prvc
+
+//Provision
+Provision ID=2A9EC534-8A40-4685-B5D692CE8052A92B
+Comment=Upgrade to 12.0 
+
+
+// User Information
+First Name=Dr. Anand
+Last Name=Akmanchi
+Organization=Dataminr
+Department=
+Email=anand.akmanchi@cybertech.com
+Address 1=6 E 32nd St Floor 6
+City=New York
+State/Province=NY
+Location Code=US
+Location=US
+Zip/Postal Code=10016-5422
+Phone Number=7376603836
+// Version=12.0
+
+// Features and authorization numbers
+ArcGIS Server=ECP562858939
