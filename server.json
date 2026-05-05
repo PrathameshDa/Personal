@@ -1,0 +1,54 @@
+{
+	"arcgis": {
+		"version": "11.5",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"vm-gis-app-prd-usc-01.gis.esscompanies.com": "10.110.0.183",
+			"vm-gis-app-prd-usc-02.gis.esscompanies.com": "10.110.0.181",
+			"vm-gis-app-prd-usc-03.gis.esscompanies.com": "10.110.0.180",
+			"vm-gis-dat-prd-usc-01.gis.esscompanies.com": "10.110.0.196",
+			"vm-gis-web-prd-usc-01.gis.esscompanies.com": "10.110.0.164",
+			"gis.esscompanies.com": "10.110.0.164",
+			"vm-gis-mgt-prd-usc-01.gis.esscompanies.com": "10.110.0.132"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"server": {
+			"domain_name": "vm-gis-app-prd-usc-02.gis.esscompanies.com",
+			"hostname": "vm-gis-app-prd-usc-02.gis.esscompanies.com",
+			"install_dir": "/home/arcgisservice",
+			"private_url": "https://vm-gis-app-prd-usc-02.gis.esscompanies.com:6443/arcgis",
+			"url": "https://vm-gis-app-prd-usc-02.gis.esscompanies.com:6443/arcgis",
+			"web_context_url": "https://gis.esscompanies.com/server",
+			"admin_username": "siteadmin",
+			"admin_password": "cQ7F42A1",
+			"setup_archive": "/mount/netapp-prod/arcgis_repo/setups/ArcGIS_Server_Linux_115_195440.tar.gz",
+			"authorization_file": "/mount/netapp-prod/arcgis_repo/licenses/ArcGISGISServerAdvanced_ArcGISServer_1609821.prvc",
+			"directories_root": "/mount/datadisk/arcgisserver",
+			"is_hosting": false,
+			"log_dir": "/mount/logdisk/arcgisserver/logs",
+			"log_level": "FINE",
+			"config_store_type": "FILESYSTEM",
+			"config_store_connection_string": "/mount/datadisk/arcgisserver/config-store",
+			"install_system_requirements": true,
+			"keystore_file": "/mount/netapp-prod/arcgis_repo/ssl/gis.esscompanies.com.pfx",
+			"keystore_password": "2dPsCSeiB&ZdUEBQ171W4^ft",
+			"system_properties": {
+				"enableNosniffHeader": true,
+				"WebContextURL": "https://gis.esscompanies.com/server"
+			}
+		},
+		"portal": {
+			"domain_name": "vm-gis-app-prd-usc-01.gis.esscompanies.com",
+			"wa_url": "https://vm-gis-web-prd-usc-01.gis.esscompanies.com/portal",
+			"admin_username": "portaladmin",
+			"admin_password": "W93kk81"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::hosts]",
+		"recipe[arcgis-enterprise::server]",
+		"recipe[arcgis-enterprise::federation]"
+	]
+}
