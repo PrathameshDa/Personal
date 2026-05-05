@@ -31,7 +31,7 @@
 			"config_store_type": "FILESYSTEM",
 			"config_store_connection_string": "/mount/datadisk/arcgisserver/config-store",
 			"install_system_requirements": true,
-			"keystore_file": "/mount/netapp-prod/arcgis_repo/ssl/gis.gis.gis.esscompanies.com.pfx",
+			"keystore_file": "/mount/netapp-prod/arcgis_repo/ssl/gis.esscompanies.com.pfx",
 			"keystore_password": "2dPsCSeiB&ZdUEBQ171W4^ft",
 			"system_properties": {
 				"enableNosniffHeader": true,
