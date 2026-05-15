@@ -1,117 +1,217 @@
 #!/bin/bash
 
-# Daily Maintenance Script Runner
+set -e
 
-echo "===================================="
-echo "Daily Maintenance Script Runner"
-echo "Using UV Package Manager"
-echo "===================================="
-echo
+# ================================
+# CONFIGURATION
+# ================================
+WORK_DIR="/home/arcgis_service/Daily_M1.2"
+REPO_URL="github.com/PrathameshDa/DailyM1.2"
 
-# Set working directory to script location
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$SCRIPT_DIR" || exit 1
-
-# Display current directory
-echo "Current directory: $(pwd)"
-echo
-
-# Check if UV is installed
-echo "Checking UV installation..."
-if ! command -v uv >/dev/null 2>&1; then
-    echo "ERROR: UV is not installed or not in PATH"
-    echo "Please install UV first: pip install uv"
+# ================================
+# TOKEN FROM JENKINS
+# ================================
+if [ -z "$GITHUBTOKEN" ]; then
+    echo "ERROR: GITHUBTOKEN environment variable not found!"
     exit 1
 fi
 
-echo "UV is installed successfully!"
-echo
+TOKEN="$GITHUBTOKEN"
 
-# Check if pyproject.toml exists
+echo "Token received successfully"
+
+# ================================
+# START EXECUTION
+# ================================
+cd "$WORK_DIR" || {
+    echo "ERROR: Cannot change directory"
+    exit 1
+}
+
+echo "===== Daily Maintenance Execution Started ====="
+echo "Current Directory: $(pwd)"
+
+# ================================
+# GIT SAFE DIRECTORY FIX
+# ================================
+echo "Configuring Git safe directory..."
+#git config --global --add safe.directory "$WORK_DIR"
+
+echo "Checking for updates in the current directory..."
+
+# ================================
+# GIT OPERATIONS
+# ================================
+GIT_URL="https://${TOKEN}@${REPO_URL}"
+
+if [ ! -d ".git" ]; then
+
+    echo "Initializing local repository..."
+
+    git init
+
+    git remote add origin "$GIT_URL"
+
+    git fetch
+
+    git checkout -t origin/main -f
+
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Git initialization failed"
+        exit 1
+    fi
+
+else
+
+    echo "Pulling latest code..."
+
+    git stash || true
+
+    git pull "$GIT_URL"
+
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Git pull failed"
+        exit 1
+    fi
+fi
+
+echo "Git sync completed successfully!"
+
+# ================================
+# UV EXECUTION
+# ================================
+echo ""
+echo "Sync Complete!"
+echo "===================================="
+
+cd "$WORK_DIR" || exit 1
+
+# ================================
+# FIND UV PATH
+# ================================
+UV_PATH="/home/arcgis_service/.local/bin/uv"
+
+UV_CANDIDATES=(
+    "~/.local/bin/uv"
+    "/usr/local/bin/uv"
+    "/snap/bin/uv"
+)
+
+for candidate in "${UV_CANDIDATES[@]}"; do
+    if [ -f "$candidate" ]; then
+        UV_PATH="$candidate"
+        break
+    fi
+done
+
+# Check system PATH
+if [ -z "$UV_PATH" ]; then
+    UV_PATH=$(command -v uv 2>/dev/null || true)
+fi
+
+echo "Checking UV installation..."
+
+# ================================
+# INSTALL UV IF MISSING
+# ================================
+if [ -z "$UV_PATH" ]; then
+
+    echo "Installing UV..."
+
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Re-check after install
+    for candidate in "${UV_CANDIDATES[@]}"; do
+        if [ -f "$candidate" ]; then
+            UV_PATH="$candidate"
+            break
+        fi
+    done
+
+    if [ -z "$UV_PATH" ]; then
+        echo "ERROR: UV installation failed!"
+        exit 1
+    fi
+fi
+
+echo "UV found at: $UV_PATH"
+
+export PATH="$(dirname "$UV_PATH"):$PATH"
+
+# ================================
+# VALIDATE PROJECT FILES
+# ================================
 if [ ! -f "pyproject.toml" ]; then
     echo "ERROR: pyproject.toml not found"
-    echo "Please ensure pyproject.toml is in the project directory"
     exit 1
 fi
 
-echo "Found pyproject.toml"
-echo
-
-# Check if main.py exists
 if [ ! -f "main.py" ]; then
     echo "ERROR: main.py not found"
-    echo "Please ensure main.py is in the project directory"
     exit 1
 fi
 
-echo "Found main.py"
-echo
+# ================================
+# RUN UV SYNC
+# ================================
+echo "Running UV sync..."
 
-# Set PYTHONPATH
-export PYTHONPATH="$(pwd)"
+"$UV_PATH" sync
 
-echo "Starting Daily Maintenance Script..."
-echo "===================================="
-echo
-
-# Option 1: Try UV with pyproject.toml
-echo "Attempting to sync and run with UV..."
-echo "Step 1: Syncing dependencies..."
-
-uv sync
-SYNC_STATUS=$?
-
-if [ $SYNC_STATUS -eq 0 ]; then
-    echo "Dependencies synced successfully!"
-    echo "Step 2: Running main.py..."
-
-    uv run main.py
-    RUN_STATUS=$?
-
-    if [ $RUN_STATUS -eq 0 ]; then
-        echo
-        echo "===================================="
-        echo "Script completed successfully with UV!"
-        echo "===================================="
-        exit 0
-    else
-        echo "UV run failed, error code: $RUN_STATUS"
-    fi
-else
-    echo "UV sync failed, error code: $SYNC_STATUS"
+if [ $? -ne 0 ]; then
+    echo "ERROR: UV sync failed"
+    exit 1
 fi
 
-echo
-echo "Trying fallback with requirements.txt..."
+# ================================
+# RUN PYTHON SCRIPT
+# ================================
+echo "Running Python script..."
 
-# Option 2: Fallback with requirements.txt
-if [ -f "requirements.txt" ]; then
-    uv run --with-requirements requirements.txt --no-project main.py
-    FALLBACK_STATUS=$?
+"$UV_PATH" run python main.py
 
-    if [ $FALLBACK_STATUS -eq 0 ]; then
-        echo
-        echo "===================================="
-        echo "Script completed successfully with UV (fallback)!"
-        echo "===================================="
-        exit 0
-    else
-        echo "UV fallback failed."
-        echo "Script failed with all methods! Error code: $FALLBACK_STATUS"
-    fi
-else
-    echo "requirements.txt not found. Script failed with all methods!"
+if [ $? -ne 0 ]; then
+    echo "ERROR: Python script failed"
+    exit 1
 fi
 
 echo "===================================="
-echo
-echo "Troubleshooting tips:"
-echo "1. Check the log files in the Logs directory"
-echo "2. Verify your config.yaml settings"
-echo "3. Ensure all credentials are properly configured"
-echo "4. Check your network connection"
-echo "5. Try running: uv sync --verbose"
+echo "Execution completed successfully!"
+echo "===================================="
 
-echo
-echo "Exiting Daily Maintenance Script Runner."
-exit 1
+# ================================
+# PRINT LATEST LOG FILE
+# ================================
+LOG_DIR="$WORK_DIR/Logs"
+
+echo ""
+echo "===== LOG FILE ANALYSIS ====="
+echo "Log Directory: $LOG_DIR"
+
+if [ -d "$LOG_DIR" ]; then
+
+    latestFile=$(find "$LOG_DIR" -type f -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)
+
+    if [ -n "$latestFile" ]; then
+
+        echo "Latest log file: $(basename "$latestFile")"
+        echo "Last Modified: $(date -r "$latestFile")"
+
+        echo "------------------------------------"
+        echo "CONTENT START"
+        echo "------------------------------------"
+
+        cat "$latestFile"
+
+        echo ""
+        echo "------------------------------------"
+        echo "CONTENT END"
+        echo "------------------------------------"
+
+    else
+        echo "No log files found in logs directory."
+    fi
+
+else
+    echo "Logs directory not found: $LOG_DIR"
+fi
