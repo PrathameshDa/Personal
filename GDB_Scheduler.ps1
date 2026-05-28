@@ -1,3 +1,4 @@
+```powershell
 # =========================================
 # ENVIRONMENT SELECTION
 # =========================================
@@ -10,23 +11,59 @@ Write-Host ""
 Write-Host "Select Environment:"
 Write-Host "1. PROD (Default)"
 Write-Host "2. DEV"
+Write-Host "3. STG"
+Write-Host "4. TEST"
+Write-Host "5. NONPROD"
 Write-Host ""
 
-$envChoice = Read-Host "Enter choice (1 or 2)"
+$envChoice = Read-Host "Enter choice"
 
-if ($envChoice -eq "2") {
+switch ($envChoice) {
 
-    $environment = "DEV"
-    $extractPath = "C:\GDB_Maintenance\Dev"
-    $taskName = "GDB Maintenance Dev"
-    $taskTime = "11:30"
-}
-else {
+    "2" {
 
-    $environment = "PROD"
-    $extractPath = "C:\GDB_Maintenance\Prod"
-    $taskName = "GDB Maintenance Prod"
-    $taskTime = "05:30"
+        $environment = "DEV"
+        $extractPath = "C:\GDB_Maintenance\Dev"
+        $taskName = "GDB Maintenance Dev"
+        $taskTime = "11:30"
+        $scheduleDay = "Monday"
+    }
+
+    "3" {
+
+        $environment = "STG"
+        $extractPath = "C:\GDB_Maintenance\STG"
+        $taskName = "GDB Maintenance STG"
+        $taskTime = "11:30"
+        $scheduleDay = "Monday"
+    }
+
+    "4" {
+
+        $environment = "TEST"
+        $extractPath = "C:\GDB_Maintenance\Test"
+        $taskName = "GDB Maintenance Test"
+        $taskTime = "11:30"
+        $scheduleDay = "Monday"
+    }
+
+    "5" {
+
+        $environment = "NONPROD"
+        $extractPath = "C:\GDB_Maintenance\NonProd"
+        $taskName = "GDB Maintenance NonProd"
+        $taskTime = "11:30"
+        $scheduleDay = "Monday"
+    }
+
+    default {
+
+        $environment = "PROD"
+        $extractPath = "C:\GDB_Maintenance\Prod"
+        $taskName = "GDB Maintenance Prod"
+        $taskTime = "05:30"
+        $scheduleDay = "Sunday"
+    }
 }
 
 Write-Host ""
@@ -34,6 +71,7 @@ Write-Host "Selected Environment : $environment"
 Write-Host "Extract Path         : $extractPath"
 Write-Host "Task Name            : $taskName"
 Write-Host "Task Time            : $taskTime"
+Write-Host "Schedule Day         : $scheduleDay"
 Write-Host ""
 
 # =========================================
@@ -282,7 +320,7 @@ $taskXml = @"
         <WeeksInterval>2</WeeksInterval>
 
         <DaysOfWeek>
-          <Monday />
+          <$scheduleDay />
         </DaysOfWeek>
 
       </ScheduleByWeek>
@@ -391,7 +429,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Environment : $environment"
     Write-Host "Task Name   : $taskName"
     Write-Host "Run User    : $currentUser"
-    Write-Host "Schedule    : Every Alternate Monday"
+    Write-Host "Schedule    : Every Alternate $scheduleDay"
     Write-Host "Run Time    : $taskTime"
     Write-Host "BAT File    : $($batFile.FullName)"
     Write-Host ""
@@ -415,3 +453,4 @@ Remove-Item `
     $taskXmlPath `
     -Force `
     -ErrorAction SilentlyContinue
+```
