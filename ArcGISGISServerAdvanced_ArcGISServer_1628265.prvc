@@ -1,0 +1,24 @@
+// ArcGISGISServerAdvanced_ArcGISServer_1628265.prvc
+
+//Provision
+Provision ID=27089F6A-B05E-45D3-B97C2D54D8C5CF5F
+Comment=vm-lcent-001
+
+
+// User Information
+First Name=Dr. Anand
+Last Name=Akmanchi
+Organization=Joint Municipal Water & Sewer Commission
+Department=
+Email=anand.akmanchi@cybertech.com
+Address 1=2546 Two Notch Rd
+City=Lexington
+State/Province=SC
+Location Code=US
+Location=US
+Zip/Postal Code=29072-8998
+Phone Number=7045171779
+// Version=11.5
+
+// Features and authorization numbers
+ArcGIS Server=ECP474870087
