@@ -1,0 +1,26 @@
+{
+	"arcgis": {
+		"version": "12.0",
+		"run_as_user": "arcgisservice",
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_server": {
+			"webapp_dir": "/opt/tomcat_arcgis_10.1.41/webapps"
+		},
+		"web_adaptor": {
+			"setup_archive": "/mount/netapp-stage/arcgis_repo/setups/ArcGIS_Web_Adaptor_Java_Linux_120_197824.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_access": true
+		},
+		"server": {
+			"url": "https://vm-gis-mgt-prd-usc-01.gis.esscompanies.com:30443/arcgis",
+			"wa_url": "https://vm-gis-mgt-prd-usc-01.gis.esscompanies.com/arcgis",
+			"admin_username": "monitoradmin",
+			"admin_password": "Macs#2026",
+			"wa_name": "arcgis"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::server_wa]"
+	]
+}
