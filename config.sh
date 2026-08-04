@@ -16,4 +16,4 @@ LOG_DISK_DIR="/mount/logdisk"
 CINC_VERSION="18.8.46"
 
 # ArcGIS cookbooks version
-ARCGIS_COOKBOOK_VERSION="5.3.0"
+ARCGIS_COOKBOOK_VERSION="5.4.0"
