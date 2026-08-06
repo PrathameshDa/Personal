@@ -1,0 +1,132 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"vm-gu-mgmt-001.spatialitics.net": "172.24.3.4",
+			"vm-gu-dev-ent-001.spatialitics.net": "172.24.4.4",
+			"vm-gu-dev-unserver-001.spatialitics.net": "172.24.4.5"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_server": {
+			"webapp_dir": "/opt/tomcat_arcgis_10.1.41/webapps"
+		},
+		"server": {
+			"domain_name": "vm-gu-dev-ent-001.spatialitics.net",
+			"hostname": "vm-gu-dev-ent-001.spatialitics.net",
+			"install_dir": "/home/arcgisservice",
+			"private_url": "https://vm-gu-dev-ent-001.spatialitics.net:6443/arcgis",
+			"url": "https://vm-gu-dev-ent-001.spatialitics.net:6443/arcgis",
+			"wa_url": "https://vm-gu-dev-ent-001.spatialitics.net/server",
+			"web_context_url": "https://gu-dev.spatialitics.net/server",
+			"admin_username": "siteadmin",
+			"admin_password": "b9j5t943",
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Server_Linux_121_200205.tar.gz",
+			"authorization_file": "/mount/netapp/arcgisrepo/license/ArcGISGISServerAdvancedArcGISGISServerAdvanced_ArcGISServer_1630967.prvc",
+			"directories_root": "/mount/data-disk/arcgisserver",
+			"log_dir": "/mount/log-disk/arcgisserver/logs",
+			"log_level": "INFO",
+			"is_hosting": true,
+			"enable_debug": true,
+			"config_store_type": "FILESYSTEM",
+			"config_store_connection_string": "/mount/data-disk/arcgisserver/config-store",
+			"install_system_requirements": true,
+			"keystore_file": "/mount/netapp/arcgisrepo/ssl/ssl.pfx",
+			"keystore_password": "123456",
+			"wa_name": "server",
+			"system_properties": {
+				"enableNosniffHeader": true,
+				"WebContextURL": "https://gu-dev.spatialitics.net/server",
+				"suspendedMachineUnregisterThreshold": -1,
+				"machineSuspendThreshold": 60
+			}
+		},
+		"data_store": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_DataStore_Linux_121_200208.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"configure_autostart": true,
+			"data_dir": "/mount/data-disk/arcgisdatastore/data",
+			"hostidentifier": "vm-gu-dev-ent-001.spatialitics.net",
+			"preferredidentifier": "vm-gu-dev-ent-001.spatialitics.net",
+			"install_system_requirements": true,
+			"setup_options": "-f Relational,Object",
+			"types": "relational,object",
+			"mode": "singleInstance",
+			"backup_dir": "/mount/data-disk/arcgisdatastore/backups",
+			"relational": {
+				"backup_type": "fs",
+				"backup_location": "/mount/data-disk/arcgisdatastore/backups/relational",
+				"enablessl": true,
+				"disk_threshold_readonly": 5120,
+				"max_connections": 150,
+				"pitr": "disable",
+				"enablessl": true
+			},
+			"object": {
+				"backup_type": "none",
+				"backup_location": "/mount/data-disk/arcgisdatastore/backups/object"
+			}
+		},
+		"portal": {
+			"domain_name": "vm-gu-dev-ent-001.spatialitics.net",
+			"hostname": "vm-gu-dev-ent-001.spatialitics.net",
+			"hostidentifier": "vm-gu-dev-ent-001.spatialitics.net",
+			"preferredidentifier": "vm-gu-dev-ent-001.spatialitics.net",
+			"url": "https://vm-gu-dev-ent-001.spatialitics.net:7443/arcgis",
+			"private_url": "https://vm-gu-dev-ent-001.spatialitics.net:7443/arcgis",
+			"wa_url": "https://vm-gu-dev-ent-001.spatialitics.net/portal",
+			"web_context_url": "https://gu-dev.spatialitics.net/portal",
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/Portal_for_ArcGIS_Linux_121_200206.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_username": "portaladmin",
+			"admin_password": "k759am9p",
+			"admin_email": "Rahul.Raj@Cybertech.Com",
+			"admin_full_name": "Administrator",
+			"admin_description": "Initial account administrator",
+			"security_question": "Your favorite ice cream flavor?",
+			"security_question_answer": "vanilla",
+			"log_dir": "/mount/log-disk/arcgisportal/logs",
+			"log_level": "INFO",
+			"enable_debug": true,
+			"content_store_type": "fileStore",
+			"content_store_provider": "FileSystem",
+			"content_store_connection_string": "/mount/data-disk/arcgisportal/content",
+			"authorization_file": "/mount/netapp/arcgisrepo/license/ArcGIS_Enterprise_Portal_121_579571_20260805_Test.json",
+			"authorization_file_version": "12.1",
+			"user_license_type_id": "creatorUT",
+			"keystore_file": "/mount/netapp/arcgisrepo/ssl/ssl.pfx",
+			"keystore_password": "123456",
+			"install_system_requirements": true,
+			"wa_name": "portal",
+			"system_properties": {
+				"privatePortalURL": "https://vm-gu-dev-ent-001.spatialitics.net:7443/arcgis",
+				"WebContextURL": "https://gu-dev.spatialitics.net/portal",
+				"enablePrintService": false,
+				"enableRssService": false,
+				"enableKmlService": false
+			}
+		},
+		"webstyles": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/Portal_for_ArcGIS_Web_Styles_Linux_121_200207.tar.gz"
+		},
+		"web_adaptor": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Web_Adaptor_Java_Linux_121_200209.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_access": true,
+			"reindex_portal_content": false
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::install_portal]",
+		"recipe[arcgis-enterprise::webstyles]",
+		"recipe[arcgis-enterprise::portal]",
+		"recipe[arcgis-enterprise::portal_security]",
+		"recipe[arcgis-enterprise::portal_wa]",
+		"recipe[arcgis-enterprise::server]",
+		"recipe[arcgis-enterprise::server_wa]",
+		"recipe[arcgis-enterprise::datastore]",
+		"recipe[arcgis-enterprise::federation]"
+	]
+}
