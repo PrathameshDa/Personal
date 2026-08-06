@@ -10,7 +10,7 @@
 		"keystore_file": "/mount/netapp/arcgisrepo/ssl/ssl.pfx",
 		"keystore_type": "pkcs12",
 		"keystore_password": "123456"
-	},,
+	},
     "run_list": [
         "recipe[arcgis-enterprise::system]",
         "recipe[esri-tomcat::openjdk]",
