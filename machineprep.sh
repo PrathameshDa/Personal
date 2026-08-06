@@ -6,7 +6,7 @@ source ./config.sh
 # Report file
 REPORT_FILE="report.txt"
 
-# Function to log messages
+# Function to log messagesf
 log() {
     echo "$1" | tee -a "$REPORT_FILE"
 }
@@ -74,7 +74,7 @@ if [[ "$DEPLOY_BED" == "yes" ]]; then
         # Create other directories under DATA_DISK_DIR
         mkdir -p "$DATA_DISK_DIR/arcgisserver/config-store"
         mkdir -p "$DATA_DISK_DIR/arcgisdatastore/data"
-        mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/tilecache"
+        mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/object"
         mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/relational"
         mkdir -p "$DATA_DISK_DIR/arcgisportal/content"
 
@@ -120,7 +120,7 @@ else
             read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_DATASTORE 
             if [[ "$MOUNTING_DONE_DATASTORE" == "yes" ]]; then 
                 mkdir -p "$DATA_DISK_DIR/arcgisdatastore/data"
-                mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/tilecache"
+                mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/object"
                 mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/relational"
                 sudo chown -R "$USERNAME:$USERNAME" "$DATA_DISK_DIR/arcgisdatastore"
                 log "Datastore directories created under $DATA_DISK_DIR and ownership assigned to $USERNAME." 
