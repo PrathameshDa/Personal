@@ -1,0 +1,30 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"grotonutilities.spatialitics.net": "172.24.0.4"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_server": {
+			"webapp_dir": "/opt/tomcat_arcgis_10.1.41/webapps"
+		},
+		"web_adaptor": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Web_Adaptor_Java_Linux_121_200209.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_access": true
+		},
+		"server": {
+			"wa_name": "watersewer",
+			"wa_url": "https://vm-gu-app-ent-001.spatialitics.net/watersewer",
+			"url": "https://vm-gu-app-water-001.spatialitics.net:6443/arcgis",
+			"admin_username": "siteadmin",
+			"admin_password": "5yz941d4"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::server_wa]"
+	]
+}

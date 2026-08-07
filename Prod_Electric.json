@@ -1,0 +1,54 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"grotonutilities.spatialitics.net": "172.24.0.6"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_server": {
+			"webapp_dir": "/opt/tomcat_arcgis_10.1.41/webapps"
+		},
+		"server": {
+			"domain_name": "vm-gu-app-electric-001.spatialitics.net",
+			"hostname": "vm-gu-app-electric-001.spatialitics.net",
+			"install_dir": "/home/arcgisservice",
+			"private_url": "https://vm-gu-app-electric-001.spatialitics.net:6443/arcgis",
+			"url": "https://vm-gu-app-electric-001.spatialitics.net:6443/arcgis",
+			"wa_url": "https://vm-gu-app-ent-001.spatialitics.net/electric",
+			"web_context_url": "https://grotonutilities.spatialitics.net/electric",
+			"admin_username": "siteadmin",
+			"admin_password": "54v81var",
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Server_Linux_121_200205.tar.gz",
+			"authorization_file": "/mount/netapp/arcgisrepo/license/ArcGISGISServerAdvancedArcGISGISServerAdvanced_ArcGISServer_1630967.prvc",
+			"directories_root": "/mount/data-disk/arcgisserver",
+			"log_dir": "/mount/log-disk/arcgisserver/logs",
+			"log_level": "INFO",
+			"is_hosting": false,
+			"enable_debug": true,
+			"config_store_type": "FILESYSTEM",
+			"config_store_connection_string": "/mount/data-disk/arcgisserver/config-store",
+			"install_system_requirements": true,
+			"keystore_file": "/mount/netapp/arcgisrepo/ssl/ssl.pfx",
+			"keystore_password": "123456",
+			"system_properties": {
+				"enableNosniffHeader": true,
+				"WebContextURL": "https://grotonutilities.spatialitics.net/electric",
+				"suspendedMachineUnregisterThreshold": -1,
+				"machineSuspendThreshold": 60
+			}
+		},
+		"portal": {
+			"domain_name": "vm-gu-app-ent-001.spatialitics.net",
+			"wa_url": "https://vm-gu-app-ent-001.spatialitics.net/portal",
+			"admin_username": "portaladmin",
+			"admin_password": "6v17f5oh"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::server]",
+		"recipe[arcgis-enterprise::federation]"
+	]
+}
