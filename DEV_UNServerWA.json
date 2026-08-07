@@ -1,0 +1,27 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"gu-dev.spatialitics.net": "172.24.4.4"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_adaptor": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Web_Adaptor_Java_Linux_121_200209.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_access": true
+		},
+		"server": {
+			"wa_name": "unserver",
+			"wa_url": "https://vm-gu-dev-ent-001.spatialitics.net/unserver",
+			"url": "https://vm-gu-dev-unserver-001.spatialitics.net:6443/arcgis",
+			"admin_username": "siteadmin",
+			"admin_password": "ca131c76"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",
+		"recipe[arcgis-enterprise::server_wa]"
+	]
+}

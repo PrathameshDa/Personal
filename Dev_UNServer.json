@@ -1,0 +1,45 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"hosts": {
+			"gu-dev.spatialitics.net": "172.24.4.4"
+		},
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"server": {
+            "domain_name": "vm-gu-dev-unserver-001.spatialitics.net",
+            "hostname": "vm-gu-dev-unserver-001.spatialitics.net",
+            "install_dir": "/home/arcgisservice",
+            "private_url": "https://vm-gu-dev-unserver-001.spatialitics.net:6443/arcgis",
+            "url": "https://vm-gu-dev-unserver-001.spatialitics.net:6443/arcgis",
+            "wa_url": "https://vm-gu-dev-ent-001.spatialitics.net/unserver",
+            "web_context_url": "https://gu-dev.spatialitics.net/unserver
+            "admin_username": "siteadmin",
+            "admin_password": "ca131c76",
+            "setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Server_Linux_121_200205.tar.gz",
+            "authorization_file": "/mount/netapp/arcgisrepo/license/ArcGISGISServerAdvancedArcGISGISServerAdvanced_ArcGISServer_1630967.prvc",
+            "directories_root": "/mount/data-disk/arcgisserver",
+            "log_dir": "/mount/log-disk/arcgisserver/logs",
+            "log_level": "INFO",
+			"is_hosting": false,
+			"enable_debug": true,
+            "config_store_type": "FILESYSTEM",
+            "config_store_connection_string": "/mount/data-disk/arcgisserver/config-store",
+            "install_system_requirements": true,
+            "keystore_file": "/mount/netapp/arcgisrepo/ssl/ssl.pfx",
+            "keystore_password": "123456",
+            "system_properties": {
+                "enableNosniffHeader": true,
+                "WebContextURL": "https://gu-dev.spatialitics.net/unserver",
+				"suspendedMachineUnregisterThreshold": -1,
+                "machineSuspendThreshold": 60
+            }
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::system]",,
+		"recipe[arcgis-enterprise::disable_loopback_check]",
+		"recipe[arcgis-enterprise::server]",
+		"recipe[arcgis-enterprise::federation]"
+	]
+}
