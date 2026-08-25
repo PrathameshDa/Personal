@@ -1,0 +1,26 @@
+{
+	"arcgis": {
+		"version": "12.1",
+		"run_as_user": "arcgisservice",
+		"configure_cloud_settings": false,
+		"cache_authorization_files": true,
+		"web_server": {
+			"webapp_dir": "/opt/tomcat_arcgis_10.1.41/webapps"
+		},
+		"web_adaptor": {
+			"setup_archive": "/mount/netapp/arcgisrepo/setup/ArcGIS_Web_Adaptor_Java_Linux_121_200209.tar.gz",
+			"install_dir": "/home/arcgisservice",
+			"admin_access": true
+		},
+		"server": {
+			"url": "https://vm-gu-mgmt-001.spatialitics.net:30443/arcgis",
+			"wa_url": "https://vm-gu-mgmt-001.spatialitics.net/arcgis",
+			"admin_username": "monitoradmin",
+			"admin_password": "Macs#2026",
+			"wa_name": "arcgis"
+		}
+	},
+	"run_list": [
+		"recipe[arcgis-enterprise::server_wa]"
+	]
+}
