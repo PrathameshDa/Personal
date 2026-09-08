@@ -31,7 +31,7 @@ else
     # Set the password for the new user
     echo "Please enter a password for the user $USERNAME:"
     sudo passwd "$USERNAME"
-    
+
     # Add the user to the sudo group
     sudo usermod -aG sudo "$USERNAME"
 
@@ -54,9 +54,9 @@ log "Packages have been installed."
 # Loop through each package and check if it is installed
 for PACKAGE in "${PACKAGES[@]}"; do
     if dpkg -l | grep -q "^ii  $PACKAGE "; then
-        log "	$PACKAGE has been installed."
+        log "   $PACKAGE has been installed."
     else
-        log "	$PACKAGE is not installed."
+        log "   $PACKAGE is not installed."
     fi
 done
 
@@ -68,15 +68,15 @@ if [[ "$DEPLOY_BED" == "yes" ]]; then
 
     if [[ "$MOUNTING_DONE" == "yes" ]]; then
         # Create directories for logs under LOG_DISK_DIR
-        mkdir -p "$LOG_DISK_DIR/arcgisserver/logs"
-        mkdir -p "$LOG_DISK_DIR/arcgisportal/logs"
+        sudo mkdir -p "$LOG_DISK_DIR/arcgisserver/logs"
+        sudo mkdir -p "$LOG_DISK_DIR/arcgisportal/logs"
 
         # Create other directories under DATA_DISK_DIR
-        mkdir -p "$DATA_DISK_DIR/arcgisserver/config-store"
-        mkdir -p "$DATA_DISK_DIR/arcgisdatastore/data"
-        mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/object"
-        mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/relational"
-        mkdir -p "$DATA_DISK_DIR/arcgisportal/content"
+        sudo mkdir -p "$DATA_DISK_DIR/arcgisserver/config-store"
+        sudo mkdir -p "$DATA_DISK_DIR/arcgisdatastore/data"
+        sudo mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/object"
+        sudo mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/relational"
+        sudo mkdir -p "$DATA_DISK_DIR/arcgisportal/content"
 
         # Assign ownership
         sudo chown -R "$USERNAME:$USERNAME" "$LOG_DISK_DIR"
@@ -87,63 +87,63 @@ if [[ "$DEPLOY_BED" == "yes" ]]; then
        log "Skipping directory creation as mounting has not been done."
     fi
 
-else 
+else
     echo "Enter 1 for Portal, Enter 2 for Server, Enter 3 for Datastore, or Enter 4 for Web Adaptor or any other Server :"
     read OPTION
 
-    case $OPTION in 
+    case $OPTION in
         1)
-            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_PORTAL 
-            if [[ "$MOUNTING_DONE_PORTAL" == "yes" ]]; then 
+            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_PORTAL
+            if [[ "$MOUNTING_DONE_PORTAL" == "yes" ]]; then
                 mkdir -p "$LOG_DISK_DIR/arcgisportal/logs"
                 mkdir -p "$DATA_DISK_DIR/arcgisportal/content"
                 sudo chown -R "$USERNAME:$USERNAME" "$LOG_DISK_DIR/arcgisportal"
                 sudo chown -R "$USERNAME:$USERNAME" "$DATA_DISK_DIR/arcgisportal"
-                log "Portal directories created under $LOG_DISK_DIR and $DATA_DISK_DIR, and ownership assigned to $USERNAME." 
-            else 
-                log "Skipping Portal directory creation as mounting has not been done." 
-            fi 
+                log "Portal directories created under $LOG_DISK_DIR and $DATA_DISK_DIR, and ownership assigned to $USERNAME."
+            else
+                log "Skipping Portal directory creation as mounting has not been done."
+            fi
             ;;
-        2) 
-            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_SERVER 
-            if [[ "$MOUNTING_DONE_SERVER" == "yes" ]]; then 
+        2)
+            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_SERVER
+            if [[ "$MOUNTING_DONE_SERVER" == "yes" ]]; then
                 mkdir -p "$LOG_DISK_DIR/arcgisserver/logs"
                 mkdir -p "$DATA_DISK_DIR/arcgisserver/config-store"
                 sudo chown -R "$USERNAME:$USERNAME" "$LOG_DISK_DIR/arcgisserver"
                 sudo chown -R "$USERNAME:$USERNAME" "$DATA_DISK_DIR/arcgisserver"
-                log "Server directories created under $LOG_DISK_DIR and $DATA_DISK_DIR, and ownership assigned to $USERNAME." 
-            else 
-                log "Skipping Server directory creation as mounting has not been done." 
-            fi 
+                log "Server directories created under $LOG_DISK_DIR and $DATA_DISK_DIR, and ownership assigned to $USERNAME."
+            else
+                log "Skipping Server directory creation as mounting has not been done."
+            fi
             ;;
-        3) 
-            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_DATASTORE 
-            if [[ "$MOUNTING_DONE_DATASTORE" == "yes" ]]; then 
+        3)
+            read -p "Have you done the mounting? (yes/no): " MOUNTING_DONE_DATASTORE
+            if [[ "$MOUNTING_DONE_DATASTORE" == "yes" ]]; then
                 mkdir -p "$DATA_DISK_DIR/arcgisdatastore/data"
                 mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/object"
                 mkdir -p "$DATA_DISK_DIR/arcgisdatastore/backups/relational"
                 sudo chown -R "$USERNAME:$USERNAME" "$DATA_DISK_DIR/arcgisdatastore"
-                log "Datastore directories created under $DATA_DISK_DIR and ownership assigned to $USERNAME." 
-            else 
-                log "Skipping Datastore directory creation as mounting has not been done." 
-            fi 
+                log "Datastore directories created under $DATA_DISK_DIR and ownership assigned to $USERNAME."
+            else
+                log "Skipping Datastore directory creation as mounting has not been done."
+            fi
             ;;
-        4) 
+        4)
             log "No directories will be created for Web Adaptor or for other servers."
             ;;
-        *) 
-            log "Invalid option selected. No directories created." 
-            exit 1 
-            ;; 
+        *)
+            log "Invalid option selected. No directories created."
+            exit 1
+            ;;
     esac
-fi 
+fi
 
 # Install cinc-client version from config file and extract ArcGIS cookbooks version from config file.
 log "Installed cinc-client $CINC_VERSION..."
-sudo curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v $CINC_VERSION 
+sudo curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v $CINC_VERSION
 
 log "Downloaded ArcGIS cookbooks version $ARCGIS_COOKBOOK_VERSION"
-wget https://github.com/Esri/arcgis-cookbook/releases/download/v$ARCGIS_COOKBOOK_VERSION/arcgis-$ARCGIS_COOKBOOK_VERSION-cookbooks.tar.gz 
+wget https://github.com/Esri/arcgis-cookbook/releases/download/v$ARCGIS_COOKBOOK_VERSION/arcgis-$ARCGIS_COOKBOOK_VERSION-cookbooks.tar.gz
 
 # Extracting ArcGIS cookbooks
 log "Extracting ArcGIS cookbooks to /opt/cinc"
@@ -156,6 +156,6 @@ sudo chown -R "$USERNAME:$USERNAME" /opt/cinc/
 
 # Print version of cinc-client installed.
 #log "Checking cinc-client version..."
-cinc-client -v 
+cinc-client -v
 
 log "Installation and setup completed successfully."
