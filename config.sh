@@ -7,10 +7,10 @@ USERNAME="arcgisservice"  # Replace with desired username
 PACKAGES=("nano" "wget" "tar" "tree" "unzip" "gettext-base" "curl" "lynx")
 
 # Data disk directory
-DATA_DISK_DIR="/mount/datadisk"
+DATA_DISK_DIR="/mnt/datadisk"
 
 # Log disk directory
-LOG_DISK_DIR="/mount/logdisk"
+LOG_DISK_DIR="/mnt/logdisk"
 
 # Cinc-client version
 CINC_VERSION="18.8.46"
