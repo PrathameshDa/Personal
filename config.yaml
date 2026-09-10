@@ -1,0 +1,43 @@
+client_name: "Groton Utilities"
+
+instance: "pgsql-gu-001.postgres.database.azure.com"
+instance_type: "Azure PostegresSQL Flexible Server"
+admin_user: "operateadmin"
+admin_password: "Cssladmin#2026"
+
+# Optional global SDE credentials
+sde_user: "sde"
+sde_password: "zdlKE71uxEd3sHiE"
+
+databases:
+  - name: "Consolidated_Prod"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp"
+
+  - name: "Electric_Dev"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp"
+    
+  - name: "WaterSewer_Dev"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp"
+    
+  - name: "Consolidated_Dev"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp"  
+    
+  - name: "WaterSewer_Prod"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp" 
+    
+  - name: "Electric_Prod"
+    data_owner: "unadmin"
+    data_owner_password: "1Pz9P6hp"   
+
+email:
+  smtp_username: "bWFjc25vdGlmaWNhdGlvbnNAY3liZXJ0ZWNoLmNvbQ=="
+  smtp_password: "QVg1QDg4SDY="
+  smtp_server: "smtp.office365.com"
+  smtp_port: "587"
+  email_recipients: ["Rahul.Raj@Cybertech.Com"]
+
